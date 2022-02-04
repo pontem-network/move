@@ -309,3 +309,17 @@ function {:inline} $CondExtendEventStore{{S}}(
         es
 }
 {% endmacro event_module %}
+
+
+{# Reflect
+    ====
+#}
+{% macro reflect_module(instance) %}
+{%- set S = "'" ~ instance.suffix ~ "'" -%}
+{%- set T = instance.name -%}
+
+procedure $1_Reflect_type_info{{S}}() returns (res: $1_Reflect_TypeInfo);
+
+function {:inline} $1_Reflect_$type_info{{S}}(): $1_Reflect_TypeInfo;
+
+{% endmacro reflect_module %}

@@ -604,6 +604,16 @@ procedure {:inline 1} $1_Signature_ed25519_verify(
 {{ native::bcs_module(instance=instance) -}}
 {%- endfor %}
 
+// ==================================================================================
+// Native Reflect::type_info
+
+{%- for instance in reflect_instances %}
+
+// ----------------------------------------------------------------------------------
+// Native Reflect implementation for element type `{{instance.suffix}}`
+
+{{ native::reflect_module(instance=instance) -}}
+{%- endfor %}
 
 // ==================================================================================
 // Native Event module
