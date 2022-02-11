@@ -26,7 +26,6 @@ use std::{
     process::Command,
     rc::Rc,
 };
-use lockfile::Lockfile;
 
 pub type ResolvedTable = ResolutionTable<AccountAddress>;
 pub type ResolvedPackage = ResolutionPackage<AccountAddress>;
@@ -720,7 +719,7 @@ impl ResolvedPackage {
 /// Get a lock if the dependency does not exist. Return Ok(Some(Lockfile))
 /// If the lock is on, then wait for the removal. Return: Ok(None)
 /// If the dependency is downloaded then no action is required. Return: Ok(None)
-fn get_lock_if_no_dependency(dir_path: &Path) -> Result<Option<Lockfile>> {
+fn get_lock_if_no_dependency(dir_path: &Path) -> Result<Option<lockfile::Lockfile>> {
     let lock_path = dir_path.with_extension("lock");
     if dir_path.exists() {
         if lock_path.exists() {
@@ -740,7 +739,7 @@ fn get_lock_if_no_dependency(dir_path: &Path) -> Result<Option<Lockfile>> {
         return Ok(None);
     }
 
-    match Lockfile::create(&lock_path) {
+    match lockfile::Lockfile::create(&lock_path) {
         Ok(lock) => Ok(Some(lock)),
         Err(err) => match err {
             lockfile::Error::LockTaken => get_lock_if_no_dependency(dir_path),
