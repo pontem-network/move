@@ -70,6 +70,15 @@ checksum = "a4c527152e37cf757a3f78aae5a06fbeefdb07ccc535c980a3208ee3060dd544"
 
 [[package]]
 name = "arrayvec"
+version = "0.4.12"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "cd9fd44efafa8690358b7408d253adf110036b88f55672a933f01d616ad9b1b9"
+dependencies = [
+ "nodrop",
+]
+
+[[package]]
+name = "arrayvec"
 version = "0.5.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "23b62fc65de8e4e7f52534fb52b0f3ed04746ae267519eef2a83941e8085068b"
@@ -130,6 +139,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "bech32"
+version = "0.7.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2dabbe35f96fb9507f7330793dc490461b2962659ac5d427181e451a623751d1"
+
+[[package]]
 name = "bimap"
 version = "0.6.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -166,13 +181,23 @@ dependencies = [
 ]
 
 [[package]]
+name = "blake2-rfc"
+version = "0.2.18"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5d6d530bdd2d52966a6d03b7a964add7ae1a288d25214066fd4b600f0f796400"
+dependencies = [
+ "arrayvec 0.4.12",
+ "constant_time_eq",
+]
+
+[[package]]
 name = "blake2b_simd"
 version = "0.5.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "afa748e348ad3be8263be728124b24a24f268266f6f5d58af9d75f6a40b5c587"
 dependencies = [
  "arrayref",
- "arrayvec",
+ "arrayvec 0.5.2",
  "constant_time_eq",
 ]
 
@@ -1469,7 +1494,7 @@ version = "0.7.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6607c62aa161d23d17a9072cc5da0be67cdfc89d3afb1e8d9c842bebc2525ffe"
 dependencies = [
- "arrayvec",
+ "arrayvec 0.5.2",
  "bitflags",
  "cfg-if 1.0.0",
  "ryu",
@@ -1783,6 +1808,7 @@ dependencies = [
  "move-vm-runtime",
  "move-vm-types",
  "once_cell",
+ "pontem",
  "read-write-set",
  "read-write-set-dynamic",
  "serde 1.0.130",
@@ -1829,6 +1855,7 @@ dependencies = [
  "num-bigint 0.4.0",
  "once_cell",
  "petgraph 0.5.1",
+ "pontem",
  "regex",
  "structopt 0.3.25",
  "tempfile",
@@ -2079,6 +2106,7 @@ dependencies = [
  "named-lock",
  "once_cell",
  "petgraph 0.5.1",
+ "pontem",
  "ptree",
  "regex",
  "serde 1.0.130",
@@ -2514,6 +2542,12 @@ dependencies = [
  "libc",
  "memoffset",
 ]
+
+[[package]]
+name = "nodrop"
+version = "0.1.14"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "72ef4a56884ca558e5ddb05a1d1e7e1bfd9a68d9ed024c21704cc98872dae1bb"
 
 [[package]]
 name = "nom"
@@ -2957,6 +2991,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "pontem"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "bech32",
+ "blake2-rfc",
+ "hex",
+ "move-binary-format",
+ "move-core-types",
+ "once_cell",
+ "regex",
+ "rust-base58",
+]
+
+[[package]]
 name = "ppv-lite86"
 version = "0.2.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2968,7 +3017,7 @@ version = "0.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ad9940b913ee56ddd94aec2d3cd179dd47068236f42a1a6415ccf9d880ce2a61"
 dependencies = [
- "arrayvec",
+ "arrayvec 0.5.2",
  "typed-arena",
 ]
 
@@ -3462,6 +3511,15 @@ dependencies = [
  "blake2b_simd",
  "constant_time_eq",
  "crossbeam-utils",
+]
+
+[[package]]
+name = "rust-base58"
+version = "0.0.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b313b91fcdc6719ad41fa2dad2b7e810b03833fae4bf911950e15529a5f04439"
+dependencies = [
+ "num 0.4.0",
 ]
 
 [[package]]
@@ -4431,7 +4489,7 @@ version = "0.10.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6cbce692ab4ca2f1f3047fcf732430249c0e971bfdd2b234cf2c47ad93af5983"
 dependencies = [
- "arrayvec",
+ "arrayvec 0.5.2",
  "utf8parse",
  "vte_generate_state_changes",
 ]
@@ -4583,7 +4641,7 @@ checksum = "712e227841d057c1ee1cd2fb22fa7e5a5461ae8e48fa2ca79ec42cfc1931183f"
 name = "workspace-hack"
 version = "0.1.0"
 dependencies = [
- "arrayvec",
+ "arrayvec 0.5.2",
  "block-buffer 0.9.0",
  "bstr",
  "byteorder",
