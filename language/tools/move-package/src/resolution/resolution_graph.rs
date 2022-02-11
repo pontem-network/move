@@ -478,7 +478,8 @@ impl ResolvingGraph {
 
     fn download_and_update_if_repo(dep_name: PackageName, dep: &Dependency) -> Result<()> {
         if let Some(git_info) = &dep.git_info {
-            if let Some(lock) = get_lock(&git_info.download_to)? {
+            // NOTE: get_lock_if_no_dependency - added for multi threaded testing. Guarantees waiting for the dependency to be fully loaded for parallel threads.
+            if let Some(lock) = get_lock_if_no_dependency(&git_info.download_to)? {
                 Command::new("git")
                     .args([
                         "clone",
@@ -718,7 +719,7 @@ impl ResolvedPackage {
 /// Get a lock if the dependency does not exist. Return Ok(Some(Lockfile))
 /// If the lock is on, then wait for the removal. Return: Ok(None)
 /// If the dependency is downloaded then no action is required. Return: Ok(None)
-fn get_lock(dir_path: &Path) -> Result<Option<Lockfile>> {
+fn get_lock_if_no_dependency(dir_path: &Path) -> Result<Option<Lockfile>> {
     let lock_path = dir_path.with_extension("lock");
     if dir_path.exists() {
         if lock_path.exists() {
@@ -741,7 +742,7 @@ fn get_lock(dir_path: &Path) -> Result<Option<Lockfile>> {
     match Lockfile::create(&lock_path) {
         Ok(lock) => Ok(Some(lock)),
         Err(err) => match err {
-            lockfile::Error::LockTaken => get_lock(dir_path),
+            lockfile::Error::LockTaken => get_lock_if_no_dependency(dir_path),
             _ => bail!("File Lock Error: {} {:?}", lock_path.display(), err),
         },
     }
