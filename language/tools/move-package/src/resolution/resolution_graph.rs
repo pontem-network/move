@@ -478,7 +478,7 @@ impl ResolvingGraph {
 
     fn download_and_update_if_repo(dep_name: PackageName, dep: &Dependency) -> Result<()> {
         if let Some(git_info) = &dep.git_info {
-            // NOTE: get_lock_if_no_dependency - added for multi threaded testing. Guarantees waiting for the dependency to be fully loaded for parallel threads.
+            // NOTE: This lock is added to support loading of dependencies in multi-threaded mode. Only one thread should be able to execute fetching of the git dependency to prevent invalid state
             if let Some(lock) = get_lock_if_no_dependency(&git_info.download_to)? {
                 Command::new("git")
                     .args([
