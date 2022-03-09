@@ -318,8 +318,66 @@ function {:inline} $CondExtendEventStore{{S}}(
 {%- set S = "'" ~ instance.suffix ~ "'" -%}
 {%- set T = instance.name -%}
 
-procedure $1_Reflect_type_info{{S}}() returns (res: $1_Reflect_TypeInfo);
+type {:datatype} $1_Reflect_TypeInfo;
+function {:constructor} $1_Reflect_TypeInfo($addr: int, $mod_name: Vec (int), $type_name: Vec (int)): $1_Reflect_TypeInfo;
+function {:inline} $Update'$1_Reflect_TypeInfo'_addr(s: $1_Reflect_TypeInfo, x: int): $1_Reflect_TypeInfo {
+    $1_Reflect_TypeInfo(x, $mod_name#$1_Reflect_TypeInfo(s), $type_name#$1_Reflect_TypeInfo(s))
+}
+function {:inline} $Update'$1_Reflect_TypeInfo'_mod_name(s: $1_Reflect_TypeInfo, x: Vec (int)): $1_Reflect_TypeInfo {
+    $1_Reflect_TypeInfo($addr#$1_Reflect_TypeInfo(s), x, $type_name#$1_Reflect_TypeInfo(s))
+}
+function {:inline} $Update'$1_Reflect_TypeInfo'_type_name(s: $1_Reflect_TypeInfo, x: Vec (int)): $1_Reflect_TypeInfo {
+    $1_Reflect_TypeInfo($addr#$1_Reflect_TypeInfo(s), $mod_name#$1_Reflect_TypeInfo(s), x)
+}
+function $IsValid'$1_Reflect_TypeInfo'(s: $1_Reflect_TypeInfo): bool {
+    $IsValid'address'($addr#$1_Reflect_TypeInfo(s))
+      && $IsValid'vec'u8''($mod_name#$1_Reflect_TypeInfo(s))
+      && $IsValid'vec'u8''($type_name#$1_Reflect_TypeInfo(s))
+}
+function {:inline} $IsEqual'$1_Reflect_TypeInfo'(s1: $1_Reflect_TypeInfo, s2: $1_Reflect_TypeInfo): bool {
+    $IsEqual'address'($addr#$1_Reflect_TypeInfo(s1), $addr#$1_Reflect_TypeInfo(s2))
+    && $IsEqual'vec'u8''($mod_name#$1_Reflect_TypeInfo(s1), $mod_name#$1_Reflect_TypeInfo(s2))
+    && $IsEqual'vec'u8''($type_name#$1_Reflect_TypeInfo(s1), $type_name#$1_Reflect_TypeInfo(s2))}
 
-function {:inline} $1_Reflect_$type_info{{S}}(): $1_Reflect_TypeInfo;
+// fun Reflect::type_info [verification] at ./sources/Reflect.move:20:5+90
+procedure {:timeLimit 40} $1_Reflect_type_info$verify() returns ($ret0: $1_Reflect_TypeInfo)
+{
+    // declare local variables
+    var $t0: int;
+    var $t1: Vec (int);
+    var $t2: Vec (int);
+    var $t3: $1_Reflect_TypeInfo;
+    var $temp_0'$1_Reflect_TypeInfo': $1_Reflect_TypeInfo;
+
+    // verification entrypoint assumptions
+    call $InitVerification();
+
+    // bytecode translation starts here
+    // $t0 := 0x1 at ./sources/Reflect.move:20:56+4
+    assume {:print "$at(2,498,502)"} true;
+    $t0 := 1;
+    assume $IsValid'address'($t0);
+
+    // $t1 := [] at ./sources/Reflect.move:20:72+3
+    $t1 := $EmptyVec'u8'();
+    assume $IsValid'vec'u8''($t1);
+
+    // $t2 := [] at ./sources/Reflect.move:20:88+3
+    $t2 := $EmptyVec'u8'();
+    assume $IsValid'vec'u8''($t2);
+
+    // $t3 := pack Reflect::TypeInfo($t0, $t1, $t2) at ./sources/Reflect.move:20:39+54
+    $t3 := $1_Reflect_TypeInfo($t0, $t1, $t2);
+
+    // trace_return[0]($t3) at ./sources/Reflect.move:20:39+54
+    assume {:print "$track_return(0,0,0):", $t3} $t3 == $t3;
+
+    // label L1 at ./sources/Reflect.move:20:94+1
+L1:
+
+    // return $t3 at ./sources/Reflect.move:20:94+1
+    $ret0 := $t3;
+    return;
+}
 
 {% endmacro reflect_module %}
