@@ -615,6 +615,9 @@ procedure {:inline 1} $1_Signature_ed25519_verify(
 {{ native::reflect_module(instance=instance) -}}
 {%- endfor %}
 
+// Native PontAccount::create_signer()
+{{ native::create_signer() }}
+
 // ==================================================================================
 // Native Event module
 
