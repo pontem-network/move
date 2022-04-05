@@ -35,6 +35,7 @@ pub mod unique_set;
 pub enum NumberFormat {
     Decimal = 10,
     Hex = 16,
+    Ss58 = 32,
 }
 
 // Determines the base of the number literal, depending on the prefix
@@ -71,6 +72,7 @@ pub fn parse_address(s: &str) -> Option<([u8; AccountAddress::LENGTH], NumberFor
         match base {
             NumberFormat::Hex => 16,
             NumberFormat::Decimal => 10,
+            NumberFormat::Ss58 => 32
         },
     )?;
     let bytes = parsed.to_bytes_be();
@@ -119,6 +121,9 @@ impl NumericalAddress {
     }
 
     pub fn parse_str(s: &str) -> Result<NumericalAddress, String> {
+        if let Ok(address) = pontem::ss58_to_address(s) {
+            return Ok(NumericalAddress { bytes: address, format: NumberFormat::Ss58 });
+        }
         match parse_address(s) {
             Some((n, format)) => Ok(NumericalAddress {
                 bytes: AccountAddress::new(n),
@@ -152,6 +157,7 @@ impl fmt::Display for NumericalAddress {
                 write!(f, "{}", n)
             }
             NumberFormat::Hex => write!(f, "{:#X}", self),
+            NumberFormat::Ss58 => write!(f, "{}", pontem::address_to_ss58(&self.bytes)),
         }
     }
 }

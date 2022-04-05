@@ -24,15 +24,9 @@ pub enum RawAddress {
 }
 
 fn parse_address_literal(s: &str) -> Result<AccountAddress> {
-    let (array, _) = move_compiler::shared::parse_address(s).ok_or_else(|| {
-        anyhow!(
-            "Failed to parse address {} to AccountAddress with Length {}",
-            s,
-            AccountAddress::LENGTH
-        )
-    })?;
-
-    Ok(AccountAddress::new(array))
+    let addr = NumericalAddress::parse_str(s)
+        .map_err(|e| anyhow!("Failed to parse address. Got error: {}", e))?;
+    Ok(addr.into_inner())
 }
 
 impl RawAddress {
