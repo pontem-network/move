@@ -109,7 +109,7 @@ impl BuildConfig {
         let resolved_graph = self.resolution_graph_for_package(path)?;
         let mutx = PackageLock::lock();
         let ret = BuildPlan::create(resolved_graph)?.compile(writer);
-        mutx.unlock();
+        drop(mutx);
         ret
     }
 

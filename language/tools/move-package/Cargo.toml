@@ -36,6 +36,8 @@ move-model = { path = "../../move-model" }
 move-bytecode-utils = { path = "../move-bytecode-utils" }
 workspace-hack = { version = "0.1", path = "../../../crates/workspace-hack" }
 
+pontem = { path = "../../../pontem" }
+
 [dev-dependencies]
 datatest-stable = "0.1.1"
 

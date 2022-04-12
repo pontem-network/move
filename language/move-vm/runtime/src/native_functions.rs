@@ -187,4 +187,12 @@ impl<'a> NativeContext<'a> {
     pub fn extensions_mut(&mut self) -> &mut NativeContextExtensions {
         self.extensions
     }
+
+    // required for Reflect
+    pub fn type_to_type_tag(
+        &self,
+        ty: &Type,
+    ) -> PartialVMResult<move_core_types::language_storage::TypeTag> {
+        self.resolver.type_to_type_tag(ty)
+    }
 }

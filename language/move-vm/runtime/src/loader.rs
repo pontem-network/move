@@ -1304,6 +1304,11 @@ impl<'a> Resolver<'a> {
         self.loader.type_to_type_layout(ty)
     }
 
+    // required for Reflect
+    pub(crate) fn type_to_type_tag(&self, ty: &Type) -> PartialVMResult<TypeTag> {
+        self.loader.type_to_type_tag(ty)
+    }
+
     //
     // Type resolution
     //
