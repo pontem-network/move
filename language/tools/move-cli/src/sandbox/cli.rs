@@ -93,8 +93,8 @@ pub enum SandboxCommand {
         /// Maximum number of gas units to be consumed by execution.
         /// When the budget is exhaused, execution will abort.
         /// By default, no `gas-budget` is specified and gas metering is disabled.
-        #[clap(long = "gas-budget", short = 'g')]
-        gas_budget: Option<u64>,
+        #[clap(long = "gas-budget", short = 'g', default_value = "1000000000")]
+        gas_budget: u64,
         /// If set, the effects of executing `script_file` (i.e., published, updated, and
         /// deleted resources) will NOT be committed to disk.
         #[clap(long = "dry-run", short = 'n')]
@@ -221,7 +221,7 @@ impl SandboxCommand {
                     signers,
                     args,
                     type_args.to_vec(),
-                    *gas_budget,
+                    Some(*gas_budget),
                     *dry_run,
                     move_args.verbose,
                 )
