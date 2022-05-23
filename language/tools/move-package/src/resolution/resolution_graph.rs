@@ -261,12 +261,12 @@ impl ResolvingGraph {
                 dep_resolution_table,
                 dep_renaming,
             )
-            .with_context(|| {
-                format!(
-                    "Resolving named addresses for dependency '{}' in package '{}'",
-                    dep_name, package_name
-                )
-            })?;
+                .with_context(|| {
+                    format!(
+                        "Resolving named addresses for dependency '{}' in package '{}'",
+                        dep_name, package_name
+                    )
+                })?;
         }
 
         self.unify_addresses_in_package(&package, &mut resolution_table, is_root_package)?;

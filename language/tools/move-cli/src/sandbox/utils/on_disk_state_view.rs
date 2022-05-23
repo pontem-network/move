@@ -465,7 +465,7 @@ impl ToString for StructID {
         // Would be nice to expose a StructTag parser and get rid of the 0x here
         format!(
             "0x{}::{}::{}{}",
-            tag.address,
+            tag.address.short_str_lossless(),
             tag.module,
             tag.name,
             Generics(tag.type_params.clone()).to_string()

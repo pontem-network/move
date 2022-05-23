@@ -280,10 +280,14 @@ pub fn parse_dev_addresses(tval: TV) -> Result<PM::DevAddressDeclarations> {
 
 // Safely parses address for both the 0x and non prefixed hex format.
 fn parse_address_literal(address_str: &str) -> Result<AccountAddress, AccountAddressParseError> {
-    if !address_str.starts_with("0x") {
-        return AccountAddress::from_hex(address_str);
+    if let Ok(address) = pontem::ss58_to_address(address_str) {
+        return Ok(address);
     }
-    AccountAddress::from_hex_literal(address_str)
+    let mut address_str = address_str.to_string();
+    if !address_str.starts_with("0x") {
+        address_str = format!("0x{}", address_str);
+    }
+    AccountAddress::from_hex_literal(&address_str)
 }
 
 fn parse_dependency(tval: TV) -> Result<PM::Dependency> {
@@ -392,7 +396,7 @@ fn parse_substitution(tval: TV) -> Result<PM::Substitution> {
                 let addr_ident = PM::NamedAddress::from(addr_name.as_str());
                 match tval {
                     TV::String(addr_or_name) => {
-                        if let Ok(addr) = AccountAddress::from_hex_literal(&addr_or_name) {
+                        if let Ok(addr) = parse_address_literal(&addr_or_name) {
                             subst.insert(addr_ident, PM::SubstOrRename::Assign(addr));
                         } else {
                             let rename_from = PM::NamedAddress::from(addr_or_name.as_str());

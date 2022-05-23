@@ -70,6 +70,15 @@ checksum = "a4c527152e37cf757a3f78aae5a06fbeefdb07ccc535c980a3208ee3060dd544"
 
 [[package]]
 name = "arrayvec"
+version = "0.4.12"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "cd9fd44efafa8690358b7408d253adf110036b88f55672a933f01d616ad9b1b9"
+dependencies = [
+ "nodrop",
+]
+
+[[package]]
+name = "arrayvec"
 version = "0.5.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "23b62fc65de8e4e7f52534fb52b0f3ed04746ae267519eef2a83941e8085068b"
@@ -193,6 +202,16 @@ dependencies = [
  "radium",
  "tap",
  "wyz",
+]
+
+[[package]]
+name = "blake2-rfc"
+version = "0.2.18"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5d6d530bdd2d52966a6d03b7a964add7ae1a288d25214066fd4b600f0f796400"
+dependencies = [
+ "arrayvec 0.4.12",
+ "constant_time_eq",
 ]
 
 [[package]]
@@ -2151,6 +2170,7 @@ dependencies = [
  "move-vm-runtime",
  "move-vm-types",
  "once_cell",
+ "pontem",
  "read-write-set",
  "read-write-set-dynamic",
  "serde 1.0.130",
@@ -2197,6 +2217,7 @@ dependencies = [
  "num-bigint 0.4.0",
  "once_cell",
  "petgraph 0.5.1",
+ "pontem",
  "regex",
  "sha3 0.9.1",
  "tempfile",
@@ -2448,6 +2469,7 @@ dependencies = [
  "named-lock",
  "once_cell",
  "petgraph 0.5.1",
+ "pontem",
  "ptree",
  "regex",
  "serde 1.0.130",
@@ -2963,6 +2985,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "nodrop"
+version = "0.1.14"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "72ef4a56884ca558e5ddb05a1d1e7e1bfd9a68d9ed024c21704cc98872dae1bb"
+
+[[package]]
 name = "nom"
 version = "5.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3430,6 +3458,17 @@ dependencies = [
  "proc-macro2 1.0.28",
  "quote 1.0.9",
  "syn 1.0.74",
+]
+
+[[package]]
+name = "pontem"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "blake2-rfc",
+ "move-binary-format",
+ "move-core-types",
+ "rust-base58",
 ]
 
 [[package]]
@@ -3978,6 +4017,15 @@ dependencies = [
  "blake2b_simd",
  "constant_time_eq",
  "crossbeam-utils",
+]
+
+[[package]]
+name = "rust-base58"
+version = "0.0.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b313b91fcdc6719ad41fa2dad2b7e810b03833fae4bf911950e15529a5f04439"
+dependencies = [
+ "num 0.4.0",
 ]
 
 [[package]]
